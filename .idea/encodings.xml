@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/Generations" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Test.txt" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/TestHuman.txt" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/neural" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/neuralHuman" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/region1" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/region2" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/region3" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/region4" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/region5" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/sample/NeuralObject.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/sample/Neuron.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/sample/Weight.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/test0.jpg" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/test3.jpg" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/test4.jpg" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/test5.jpg" charset="windows-1251" />
+  </component>
+</project>
