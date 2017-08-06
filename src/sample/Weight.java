@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Sergiy on 7/31/2017.
+ *
  */
 public class Weight {
 
@@ -36,16 +37,14 @@ public class Weight {
     }
 
     public void weight_load(){
-//        for (int i = 0; i <weight.length ; i++) {
-//            for (int j = 0; j < weight[0].length; j++) {
-//                weight[i][j] = new Random().nextInt(5)+1;
-//                //weight[i][j] = 3;
-//            }
-//        }
         readFile(path);
 
     }
 
+    /**
+     * зберігає weights в файл
+     * @throws IOException
+     */
     public void save() throws IOException
     {
 
@@ -59,7 +58,7 @@ public class Weight {
         filewriter.flush();
     }
     /**
-     * Resize array with weights
+     * Resize dimension of weights (походу така штука не прокатить)
      * @param pixels that will be resized
      * @param w1 - initial width
      * @param h1 - initial height
@@ -83,7 +82,7 @@ public class Weight {
     }
 
     /**
-     * зчитує дані з файлу, походу повинен лежати в класі RWFile
+     * зчитує weights з файлу
      * @param path петь к файлу
      * @return повертає список слів
      */
