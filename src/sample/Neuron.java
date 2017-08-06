@@ -1,6 +1,5 @@
 package sample;
 
-import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -18,14 +17,14 @@ public class Neuron {
     private int height;
     private int width;
 
-    public Neuron(int height, int width, int[][] inP) // Задаем свойства при создании объекта
+    public Neuron(int height, int width, int[][] inputImage) // Задаем свойства при создании объекта
     {
         this.height=height;
         this.width=width;
         //weight = new int[height][width]; // Определяемся с размером массива (число входов)
         mul = new int[height][ width];
         input = new int[height][ width];
-        input = inP; // Получаем входные данные
+        input = inputImage; // Получаем входные данные
 
         //weight_load();
     }
@@ -58,89 +57,26 @@ public class Neuron {
         else return false;
     }
 
-    private void weight_load(){
-//        for (int i = 0; i <weight.length ; i++) {
-//            for (int j = 0; j < weight[0].length; j++) {
-//                weight[i][j] = new Random().nextInt(5)+1;
-//                //weight[i][j] = 3;
-//            }
-//        }
-        readFile("TestHuman.txt");
+    public static void removeNeuralObjects(ArrayList<NeuralObject> objects, int removeRadius){
+        for (int j = 0; j < objects.size(); j++) {
+            for (int i = 0; i < objects.size(); i++) {
+                if (Math.sqrt(Math.pow(Math.abs(objects.get(i).getxPos() - objects.get(j).getxPos()), 2) +
+                        Math.pow(Math.abs(objects.get(i).getyPos() - objects.get(j).getyPos()), 2)) < removeRadius) {
+                    if (!(objects.get(i).isRemove() == true && objects.get(j).isRemove() == true)) {
+                        if (objects.get(i).getObjectWeight() > objects.get(j).getObjectWeight() && objects.get(j).isRemove()) {
+                            objects.get(j).setRemove(true);
+                            if (objects.get(i).isRemove() == true)
+                                objects.get(j).setRemove(false);
 
-    }
-
-    public void incW(int[][] inP)
-    {
-        for (int i = 0; i <height; i++)
-        {
-            for (int j = 0; j <width; j++)
-            {
-                weight[i][ j] += inP[i][ j];
-            }
-        }
-//        try {
-//            WriteFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    public void decW(int[][] inP)
-    {
-        for (int i = 0; i <height; i++)
-        {
-            for (int j = 0; j <width; j++)
-            {
-                weight[i][ j] -= inP[i][ j];
-            }
-        }
-//        try {
-//            WriteFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    public void WriteFile() throws IOException
-    {
-
-        FileWriter filewriter = new FileWriter(new File("TestHuman.txt"));
-
-        for (int i=0;i<weight.length;++i) {
-            for (int j = 0; j < weight[0].length; ++j)
-                filewriter.write(weight[i][j] + "\n");
-            //filewriter.write("\n");
-        }
-        filewriter.flush();
-    }
-
-    /**
-     * зчитує дані з файлу
-     * @param path петь к файлу
-     * @return повертає список слів
-     */
-    public void readFile(String path){
-        ArrayList<String> s = new ArrayList<>();
-
-        String str;
-
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new FileReader(path));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        for (int i = 0; i <weight.length ; i++) {
-                for (int j = 0; j < weight[0].length; j++) {
-                    try {
-                        weight[i][j]= Integer.parseInt(in.readLine());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        } else {
+                            objects.get(i).setRemove(true);
+                            if (objects.get(j).isRemove() == true)
+                                objects.get(i).setRemove(false);
+                        }
                     }
                 }
             }
-
+        }
     }
 
 

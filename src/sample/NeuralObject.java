@@ -11,15 +11,6 @@ public class NeuralObject {
     private int objectWeight;
     private int deleteRadius;
     private boolean remove = false;
-    private boolean ignore = false;
-
-    public boolean isIgnore() {
-        return ignore;
-    }
-
-    public void setIgnore(boolean ignore) {
-        this.ignore = ignore;
-    }
 
 
     public boolean isRemove() {

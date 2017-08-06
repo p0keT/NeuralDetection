@@ -16,16 +16,22 @@ public class Controller implements Initializable{
     public ImageView IVRecognized;
 
     ArrayList<int[][]> images = new ArrayList<>();
+    Weight weight1 = new Weight("region1.txt", 80, 80);
+    Weight weight2 = new Weight("region2.txt", 80, 80);
+    Weight weight3 = new Weight("region3.txt", 80, 80);
+    Weight weight4 = new Weight("region4.txt", 80, 80);
+    Weight weight5 = new Weight("region5.txt", 80, 80);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
 
 
         //*************************************************************************************************************
         //*************************************************************************************************************
         Weight weight = new Weight("TestHuman.txt", 80, 80);
 
-        images.add(new RWFile().readBufferedToBinaryImage("test0.jpg"));
+        images.add(new RWFile().readBufferedToBinaryImage("test1.jpg"));
 
         BufferedImage bi = toBufferedImage(images.get(0));
 
@@ -37,7 +43,7 @@ public class Controller implements Initializable{
 
     }
 
-    public void detection(BufferedImage bi, Weight weight){
+    public void detection(BufferedImage bi, Weight weight) {
 
         ArrayList<NeuralObject> objects = new ArrayList<>();
 
@@ -55,76 +61,97 @@ public class Controller implements Initializable{
                         tempRect[i - k + (objHeight - 1)][j - l + (objWidth - 1)] = images.get(0)[i][j];
                     }
                 }
-                //System.out.println(l+"///"+k);
-                Neuron NW1 = new Neuron(tempRect.length, tempRect[0].length, tempRect);
-                NW1.setWeight(weight.getWeight());
+                int centerOfRectX = k - (objHeight - 1) + objWidth / 2;
+                int centerOfRectY = l - (objWidth - 1) + objHeight / 2;
+                int rectX = k - (objHeight - 1);
+                int rectY = l - (objWidth - 1);
+
+                if (centerOfRectX < images.get(0)[0].length / 2 && centerOfRectY < images.get(0).length / 2) {
+                    //System.out.println(l+"///"+k);
+                    Neuron neuron1 = new Neuron(tempRect.length, tempRect[0].length, tempRect);
+                    neuron1.setWeight(weight1.getWeight());
 
 
-                NW1.mul_w();
-                NW1.Sum();
+                    neuron1.mul_w();
+                    neuron1.Sum();
+                    if (neuron1.Rez()) {
+                        objects.add(new NeuralObject(k - (objHeight - 1), l - (objWidth - 1), objHeight, objWidth, neuron1.getSum(), 40));
 
-                if (NW1.Rez()) {
-                    objects.add(new NeuralObject(k - (objHeight - 1), l - (objWidth - 1), objHeight, objWidth, NW1.getSum(), 40));
-
-                    System.out.println(" - True, Sum = " + NW1.getSum());
-                } else {
-                    //System.out.println(" - False, Sum = "+NW1.sum);
-
+                        //System.out.println(" - True, Sum = " + NW1.sum);
+                    }
                 }
-            }
-        }
-        boolean repeat = false;
+                //**************
+                if (centerOfRectX > images.get(0)[0].length / 2 && centerOfRectY < images.get(0).length / 2) {
+                    Neuron neuron2 = new Neuron(tempRect.length, tempRect[0].length, tempRect);
+                    neuron2.setWeight(weight2.getWeight());
 
-        for (int j = 0; j < objects.size(); j++) {
-            for (int i = 0; i < objects.size(); i++) {
-                if (Math.sqrt(Math.pow(Math.abs(objects.get(i).getxPos() - objects.get(j).getxPos()), 2) +
-                        Math.pow(Math.abs(objects.get(i).getyPos() - objects.get(j).getyPos()), 2)) < 40 ) {
-                    if (!(objects.get(i).isRemove() == true && objects.get(j).isRemove() == true)) {
-                        if (objects.get(i).getObjectWeight() > objects.get(j).getObjectWeight() && objects.get(j).isRemove()) {
-                            objects.get(j).setRemove(true);
-                            if (objects.get(i).isRemove() == true)
-                                objects.get(i).setRemove(false);
 
-                        } else {
-                            objects.get(i).setRemove(true);
-                            if (objects.get(j).isRemove() == true)
-                                objects.get(j).setRemove(false);
-                        }
+                    neuron2.mul_w();
+                    neuron2.Sum();
+                    if (neuron2.Rez()) {
+                        objects.add(new NeuralObject(k - (objHeight - 1), l - (objWidth - 1), objHeight, objWidth, neuron2.getSum(), 40));
+
+                        //System.out.println(" - True, Sum = " + NW1.sum);
+                    }
+                }
+                //**************
+                if (centerOfRectX < images.get(0)[0].length / 2 && centerOfRectY > images.get(0).length / 2) {
+                    Neuron neuron3 = new Neuron(tempRect.length, tempRect[0].length, tempRect);
+                    neuron3.setWeight(weight3.getWeight());
+
+
+                    neuron3.mul_w();
+                    neuron3.Sum();
+                    if (neuron3.Rez()) {
+                        objects.add(new NeuralObject(k - (objHeight - 1), l - (objWidth - 1), objHeight, objWidth, neuron3.getSum(), 40));
+
+                        //System.out.println(" - True, Sum = " + NW1.sum);
+                    }
+                }
+                //**************
+                if (centerOfRectX > images.get(0)[0].length / 2 && centerOfRectY > images.get(0).length / 2) {
+                    Neuron neuron4 = new Neuron(tempRect.length, tempRect[0].length, tempRect);
+                    neuron4.setWeight(weight4.getWeight());
+
+
+                    neuron4.mul_w();
+                    neuron4.Sum();
+                    if (neuron4.Rez()) {
+                        objects.add(new NeuralObject(rectX, rectY, objHeight, objWidth, neuron4.getSum(), 40));
+
+                        //System.out.println(" - True, Sum = " + NW1.sum);
+                    }
+                }
+                //**************
+                if (centerOfRectX > images.get(0)[0].length / 4 && centerOfRectY > images.get(0).length / 4 &&
+                        centerOfRectX < images.get(0)[0].length / 4 * 3 && centerOfRectY < images.get(0).length / 4 * 3) {
+                    Neuron neuron5 = new Neuron(tempRect.length, tempRect[0].length, tempRect);
+                    neuron5.setWeight(weight5.getWeight());
+
+
+                    neuron5.mul_w();
+                    neuron5.Sum();
+                    if (neuron5.Rez()) {
+                        objects.add(new NeuralObject(k - (objHeight - 1), l - (objWidth - 1), objHeight, objWidth, neuron5.getSum(), 40));
+
+                        //System.out.println(" - True, Sum = " + NW1.sum);
                     }
                 }
             }
+
+
+            Neuron.removeNeuralObjects(objects, 40);
+
+
+
+            for (int i = 0; i < objects.size(); i++) {
+
+                if (objects.get(i).isRemove() == false)
+                    g.drawRect(objects.get(i).getxPos(), objects.get(i).getyPos(), objects.get(i).getWidth(), objects.get(i).getHeight());
+            }
         }
-
-//        boolean repeat = false;
-//        do {
-//            repeat=false;
-//            int maxIndex = 0;
-//            for (int i = 0; i < objects.size(); i++) {
-//                if (objects.get(maxIndex).getObjectWeight() < objects.get(i).getObjectWeight() && objects.get(i).isIgnore() == false
-//                        && objects.get(i).isRemove()==false) {
-//                    maxIndex = i;
-//                    repeat=true;
-//                }
-//            }
-//            objects.get(maxIndex).setIgnore(true);
-//            for (int i = 0; i < objects.size(); i++) {
-//                if (Math.sqrt(Math.pow(Math.abs(objects.get(maxIndex).getxPos() - objects.get(i).getxPos()), 2) +
-//                        Math.pow(Math.abs(objects.get(maxIndex).getyPos() - objects.get(i).getyPos()), 2)) < 10&&i!=maxIndex) {
-//                    objects.get(i).setRemove(true);
-//
-//                }
-//            }
-//        }while(repeat==true);
-
-
-
-        for (int i = 0; i < objects.size(); i++) {
-
-            if(objects.get(i).isRemove()==false)
-                g.drawRect(objects.get(i).getxPos(), objects.get(i).getyPos(), objects.get(i).getWidth(), objects.get(i).getHeight());
-        }
+        images.removeAll(images);
     }
-
 
 
 
@@ -142,5 +169,7 @@ public class Controller implements Initializable{
         }
         return bi;
     }
+
+
 
 }
