@@ -140,7 +140,7 @@ public class Controller implements Initializable{
             }
 
 
-            Neuron.removeNeuralObjects(objects, 40);
+            NeuralObject.removeNeuralObjects(objects, 40);
 
 
 
