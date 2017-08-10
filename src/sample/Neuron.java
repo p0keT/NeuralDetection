@@ -21,12 +21,10 @@ public class Neuron {
     {
         this.height=height;
         this.width=width;
-        //weight = new int[height][width]; // Определяемся с размером массива (число входов)
         mul = new int[height][ width];
         input = new int[height][ width];
         input = inputImage; // Получаем входные данные
 
-        //weight_load();
     }
     public void mul_w()
     {

@@ -20,12 +20,11 @@ public class Weight {
 
 
 
-    Weight(String path, int height, int width){
-        this.height =height;
-        this.width = width;
+    Weight(String path){
+
         this.path = path;
-        weight = new int[height][width];
         weight_load();
+
     }
 
     public String getPath() {
@@ -37,7 +36,11 @@ public class Weight {
     }
 
     public void weight_load(){
-        readFile(path);
+        try {
+            readFile(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -52,8 +55,8 @@ public class Weight {
 
         for (int i=0;i<weight.length;++i) {
             for (int j = 0; j < weight[0].length; ++j)
-                filewriter.write(weight[i][j] + "\n");
-            //filewriter.write("\n");
+                filewriter.write(weight[i][j]+"\n");
+            filewriter.write("+\n");
         }
         filewriter.flush();
     }
@@ -81,30 +84,68 @@ public class Weight {
         return temp ;
     }
 
+//    /**
+//     * зчитує weights з файлу
+//     * @param path петь к файлу
+//     * @return повертає список слів
+//     */
+//    public void readFile(String path){
+//        ArrayList<String> s = new ArrayList<>();
+//
+//        String str;
+//
+//        BufferedReader in = null;
+//        try {
+//            in = new BufferedReader(new FileReader(path));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//        for (int i = 0; i <weight.length ; i++) {
+//            for (int j = 0; j < weight[0].length; j++) {
+//                try {
+//                    weight[i][j]= Integer.parseInt(in.readLine());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//    }
+
     /**
      * зчитує weights з файлу
-     * @param path петь к файлу
+     * @param path шлях до файлу
      * @return повертає список слів
      */
-    public void readFile(String path){
-        ArrayList<String> s = new ArrayList<>();
+    public void readFile(String path) throws IOException{
+        ArrayList<ArrayList<String>> s = new ArrayList<>();
 
         String str;
 
         BufferedReader in = null;
-        try {
-            in = new BufferedReader(new FileReader(path));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        in = new BufferedReader(new FileReader(path));
+
+
+        int height =0;
+        int width =0;
+        s.add(new ArrayList<>());
+        while ((str=in.readLine())!=null) {
+            if(str.equals("+")) {
+                height++;
+                s.add(new ArrayList<>());
+            }else {
+                s.get(s.size()-1).add(str);
+                width++;
+            }
         }
 
-        for (int i = 0; i <weight.length ; i++) {
-            for (int j = 0; j < weight[0].length; j++) {
-                try {
-                    weight[i][j]= Integer.parseInt(in.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        width=width/height;
+
+        weight = new int[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                weight[i][j]=Integer.parseInt(s.get(i).get(j));
             }
         }
 

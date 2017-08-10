@@ -40,10 +40,10 @@ public class RWFile {
         BufferedImage bImage = null;
         try {
             bImage = ImageIO.read(imageFile);
-            image = new int[bImage.getWidth()][bImage.getHeight()];
+            image = new int[bImage.getHeight()][bImage.getWidth()];
             for (int i = 0; i < image.length ; i++) {
                 for (int j = 0; j < image[0].length; j++) {
-                    Color c = new Color(bImage.getRGB(i,j));
+                    Color c = new Color(bImage.getRGB(j,i));
                     if(c.getRed()>125)
                         image[i][j]=1;
                     else
